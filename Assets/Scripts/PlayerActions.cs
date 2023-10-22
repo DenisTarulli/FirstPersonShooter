@@ -4,15 +4,42 @@ using UnityEngine;
 
 public class PlayerActions : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float moveSpeed = 4f;
+    [SerializeField] private float jumpHeight = 7f;
+
+    private float gravity = -15f;
+
+    private Vector3 velocity;
+
+    private CharacterController characterController;
+
+    private void Start()
     {
-        
+        characterController = GetComponent<CharacterController>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        Movement();
+    }
+
+    private void Movement()
+    {
+        float xInput = Input.GetAxisRaw("Horizontal");
+        float zInput = Input.GetAxisRaw("Vertical");
+
+        Vector3 moveDir = transform.right * xInput + transform.forward * zInput;
+
+        characterController.Move(moveDir * moveSpeed * Time.deltaTime);
+
+        velocity.y += gravity * Time.deltaTime;
+
+        characterController.Move(velocity * Time.deltaTime);
+
+        if (characterController.isGrounded && velocity.y < 0)
+            velocity.y = -2f;
+
+        if (Input.GetKeyDown(KeyCode.Space) && characterController.isGrounded)
+            velocity.y = Mathf.Sqrt(jumpHeight * -2 * gravity);
     }
 }

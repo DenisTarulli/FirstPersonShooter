@@ -4,15 +4,23 @@ using UnityEngine;
 
 public class Gun : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] private float damage = 10f;
+    [SerializeField] private float range = 100f;
+
+    [SerializeField] private Camera fpsCam;
+
+    private void Update()
     {
-        
+        if (Input.GetButtonDown("Fire1"))
+            Shoot();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Shoot()
     {
-        
+        if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range))
+        {
+            Debug.Log(hit.transform.name);
+        }
+       
     }
 }
