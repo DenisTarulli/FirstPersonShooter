@@ -10,18 +10,38 @@ public class Gun : MonoBehaviour
     [SerializeField] private float fireRate = 15f;
 
     [SerializeField] private Camera fpsCam;
+    [SerializeField] private SoundEffectsPlayer sfxPlayer;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject defaultImpactEffect;
     [SerializeField] private GameObject bloodImpactEffect;
 
+
     private const string IS_ENEMY = "Enemy";
+    private const string IS_FIRE = "Fire";
     private float nextTimeToFire = 0f;
+    private Animator animator;
+
+    private void Awake()
+    {
+        animator = GetComponent<Animator>();
+    }
 
     private void Update()
     {
+        ShootInputAndAnimation();
+    }
+
+    private void ShootInputAndAnimation()
+    {
+        if (Time.time >= nextTimeToFire)
+        {
+            animator.SetInteger(IS_FIRE, -1);
+        }
+
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
-            nextTimeToFire = Time.time + 1f/fireRate;
+            animator.SetInteger(IS_FIRE, 2);
+            nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
         }        
     }
@@ -29,6 +49,7 @@ public class Gun : MonoBehaviour
     private void Shoot()
     {
         muzzleFlash.Play();
+        sfxPlayer.ShootSound();
 
         if (Physics.Raycast(fpsCam.transform.position, fpsCam.transform.forward, out RaycastHit hit, range))
         {         
@@ -39,7 +60,7 @@ public class Gun : MonoBehaviour
             if (hit.rigidbody != null)
                 hit.rigidbody.AddForce(-hit.normal * impactForce);
 
-            if (hit.transform.name == IS_ENEMY)
+            if (hit.transform.tag == IS_ENEMY)
             {
                 GameObject impactGameObject = Instantiate(bloodImpactEffect, hit.point, Quaternion.LookRotation(hit.normal));
                 Destroy(impactGameObject, 1f);
