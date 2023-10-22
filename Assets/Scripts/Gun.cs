@@ -15,16 +15,15 @@ public class Gun : MonoBehaviour
     [SerializeField] private GameObject bloodImpactEffect;
 
     private const string IS_ENEMY = "Enemy";
-
     private float nextTimeToFire = 0f;
 
     private void Update()
     {
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
         {
-            nextTimeToFire = Time.time + 1f/fireRate; 
+            nextTimeToFire = Time.time + 1f/fireRate;
             Shoot();
-        }
+        }        
     }
 
     private void Shoot()
@@ -51,6 +50,5 @@ public class Gun : MonoBehaviour
                 Destroy(impactGameObject, 1f);
             }            
         }
-       
     }
 }
