@@ -6,9 +6,14 @@ using UnityEngine.UI;
 public class EnemyHealthBar : MonoBehaviour
 {
     [SerializeField] private Slider slider;
-    [SerializeField] private Camera cam;
     [SerializeField] private Transform target;
     [SerializeField] private Vector3 offset;
+    private Camera cam;
+
+    private void Start()
+    {
+        cam = FindObjectOfType<Camera>();
+    }
 
     private void Update()
     {

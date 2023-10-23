@@ -71,15 +71,15 @@ public class Gun : MonoBehaviour
             animator.SetInteger(IS_FIRE, -1);
         }
 
+        if (Input.GetButtonDown("Fire1") && outOfAmmo)
+            sfxPlayer.emptyChamberSound();
+
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !outOfAmmo)
         {   
             animator.SetInteger(IS_FIRE, 2);
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();                       
-        }
-
-        if (Input.GetButtonDown("Fire1") && outOfAmmo)
-            sfxPlayer.emptyChamberSound();
+        }        
         
         if (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo)
             StartCoroutine(Reload());
