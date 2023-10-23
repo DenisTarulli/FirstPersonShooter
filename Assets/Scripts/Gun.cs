@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class Gun : MonoBehaviour
@@ -9,17 +10,17 @@ public class Gun : MonoBehaviour
     [SerializeField] private float impactForce = 30f;
     [SerializeField] private float fireRate = 15f;
 
-    [SerializeField] private int maxAmmo = 30;
+    public int maxAmmo = 30;
+    public int currentAmmo;
     [SerializeField] private float reloadTime = 1f;
-    private int currentAmmo;
-    private bool isReloading;    
+    private bool isReloading;
+    private bool outOfAmmo;
 
     [SerializeField] private Camera fpsCam;
     [SerializeField] private SoundEffectsPlayer sfxPlayer;
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject defaultImpactEffect;
     [SerializeField] private GameObject bloodImpactEffect;
-
 
     private const string IS_ENEMY = "Enemy";
     private const string IS_FIRE = "Fire";
@@ -35,6 +36,7 @@ public class Gun : MonoBehaviour
     private void Start()
     {
         currentAmmo = maxAmmo;
+        outOfAmmo = false;
     }
 
     private void Update()
@@ -42,19 +44,12 @@ public class Gun : MonoBehaviour
         if (isReloading)
             return;
 
-        if (currentAmmo <= 0)
-        {
-            StartCoroutine(Reload());
-            return;
-        }
-
         ShootInputAndAnimation();
     }
 
     private IEnumerator Reload()
     {
         isReloading = true;
-        Debug.Log("Reloading...");
 
         animator.SetBool(IS_RELOADING, true);
         animator.SetInteger(IS_FIRE, -1);
@@ -64,6 +59,7 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
 
         currentAmmo = maxAmmo;
+        outOfAmmo = false;
         animator.SetBool(IS_RELOADING, false);
         isReloading = false;
     }
@@ -75,14 +71,17 @@ public class Gun : MonoBehaviour
             animator.SetInteger(IS_FIRE, -1);
         }
 
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
-        {            
+        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !outOfAmmo)
+        {   
             animator.SetInteger(IS_FIRE, 2);
             nextTimeToFire = Time.time + 1f / fireRate;
-            Shoot();
+            Shoot();                       
         }
+
+        if (Input.GetButtonDown("Fire1") && outOfAmmo)
+            sfxPlayer.emptyChamberSound();
         
-        if (Input.GetKey(KeyCode.R))
+        if (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo)
             StartCoroutine(Reload());
     }
 
@@ -112,6 +111,9 @@ public class Gun : MonoBehaviour
             }            
         }
 
-        currentAmmo--;
+        currentAmmo--;        
+
+        if (currentAmmo == 0)
+            outOfAmmo = true;
     }
 }

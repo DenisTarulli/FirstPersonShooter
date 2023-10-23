@@ -5,7 +5,7 @@ using UnityEngine;
 public class SoundEffectsPlayer : MonoBehaviour
 {
     [SerializeField] private AudioSource audioSrc;
-    [SerializeField] private AudioClip shoot, reload;
+    [SerializeField] private AudioClip shoot, reload, emptyChamber;
 
     public void ShootSound()
     {
@@ -16,6 +16,12 @@ public class SoundEffectsPlayer : MonoBehaviour
     public void ReloadSound()
     {
         audioSrc.clip = reload;
+        audioSrc.Play();
+    }
+
+    public void emptyChamberSound()
+    {
+        audioSrc.clip = emptyChamber;
         audioSrc.Play();
     }
 }
