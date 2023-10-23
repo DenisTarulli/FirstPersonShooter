@@ -21,6 +21,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private ParticleSystem muzzleFlash;
     [SerializeField] private GameObject defaultImpactEffect;
     [SerializeField] private GameObject bloodImpactEffect;
+    [SerializeField] private TextMeshProUGUI ammoText;
 
     private const string IS_ENEMY = "Enemy";
     private const string IS_FIRE = "Fire";
@@ -59,6 +60,7 @@ public class Gun : MonoBehaviour
         yield return new WaitForSeconds(reloadTime);
 
         currentAmmo = maxAmmo;
+        ammoText.text = $"{currentAmmo:D2}/{maxAmmo}";
         outOfAmmo = false;
         animator.SetBool(IS_RELOADING, false);
         isReloading = false;
@@ -111,8 +113,8 @@ public class Gun : MonoBehaviour
             }            
         }
 
-        currentAmmo--;        
-
+        currentAmmo--;
+        ammoText.text = $"{currentAmmo:D2}/{maxAmmo}";
         if (currentAmmo == 0)
             outOfAmmo = true;
     }

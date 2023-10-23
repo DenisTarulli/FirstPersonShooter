@@ -30,7 +30,7 @@ public class PlayerActions : MonoBehaviour
 
         Vector3 moveDir = transform.right * xInput + transform.forward * zInput;
 
-        characterController.Move(moveDir * moveSpeed * Time.deltaTime);
+        characterController.Move(moveDir.normalized * moveSpeed * Time.deltaTime);
 
         velocity.y += gravity * Time.deltaTime;
 
