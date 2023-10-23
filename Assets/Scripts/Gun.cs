@@ -9,6 +9,11 @@ public class Gun : MonoBehaviour
     [SerializeField] private float impactForce = 30f;
     [SerializeField] private float fireRate = 15f;
 
+    [SerializeField] private int maxAmmo = 30;
+    [SerializeField] private float reloadTime = 1f;
+    private int currentAmmo;
+    private bool isReloading;    
+
     [SerializeField] private Camera fpsCam;
     [SerializeField] private SoundEffectsPlayer sfxPlayer;
     [SerializeField] private ParticleSystem muzzleFlash;
@@ -18,6 +23,7 @@ public class Gun : MonoBehaviour
 
     private const string IS_ENEMY = "Enemy";
     private const string IS_FIRE = "Fire";
+    private const string IS_RELOADING = "IsReloading";
     private float nextTimeToFire = 0f;
     private Animator animator;
 
@@ -26,9 +32,40 @@ public class Gun : MonoBehaviour
         animator = GetComponent<Animator>();
     }
 
+    private void Start()
+    {
+        currentAmmo = maxAmmo;
+    }
+
     private void Update()
     {
+        if (isReloading)
+            return;
+
+        if (currentAmmo <= 0)
+        {
+            StartCoroutine(Reload());
+            return;
+        }
+
         ShootInputAndAnimation();
+    }
+
+    private IEnumerator Reload()
+    {
+        isReloading = true;
+        Debug.Log("Reloading...");
+
+        animator.SetBool(IS_RELOADING, true);
+        animator.SetInteger(IS_FIRE, -1);
+
+        sfxPlayer.ReloadSound();
+
+        yield return new WaitForSeconds(reloadTime);
+
+        currentAmmo = maxAmmo;
+        animator.SetBool(IS_RELOADING, false);
+        isReloading = false;
     }
 
     private void ShootInputAndAnimation()
@@ -39,11 +76,14 @@ public class Gun : MonoBehaviour
         }
 
         if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire)
-        {
+        {            
             animator.SetInteger(IS_FIRE, 2);
             nextTimeToFire = Time.time + 1f / fireRate;
             Shoot();
-        }        
+        }
+        
+        if (Input.GetKey(KeyCode.R))
+            StartCoroutine(Reload());
     }
 
     private void Shoot()
@@ -71,5 +111,7 @@ public class Gun : MonoBehaviour
                 Destroy(impactGameObject, 1f);
             }            
         }
+
+        currentAmmo--;
     }
 }
