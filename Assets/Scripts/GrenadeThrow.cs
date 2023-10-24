@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class GrenadeThrow : MonoBehaviour
@@ -8,6 +9,8 @@ public class GrenadeThrow : MonoBehaviour
     [SerializeField] private Transform cam;
     [SerializeField] private Transform attackPoint;
     [SerializeField] private GameObject objectToThrow;
+    [SerializeField] private WeaponSwitch weaponSwitch;
+    [SerializeField] private TextMeshProUGUI grenadeText;
 
     [Header("Settings")]
     [SerializeField] private int totalThrows;
@@ -19,16 +22,18 @@ public class GrenadeThrow : MonoBehaviour
 
     private KeyCode throwKey = KeyCode.Mouse0;
     private bool readyToThrow;
+    private GrenadeSelectedAnim grenadeAnim;
 
     private void Start()
     {
+        grenadeText.text = $"{totalThrows}";
         readyToThrow = true;
     }
 
     private void Update()
     {
-        if (Input.GetKey(throwKey) && readyToThrow && totalThrows > 0)
-        {
+        if (Input.GetKey(throwKey) && readyToThrow && totalThrows > 0 && weaponSwitch.selectedWeapon == 1)
+        {            
             Throw();
         }
     }
@@ -53,6 +58,8 @@ public class GrenadeThrow : MonoBehaviour
         projectileRb.AddForce(forceToAdd, ForceMode.Impulse);
 
         totalThrows--;
+
+        grenadeText.text = $"{totalThrows}";
 
         Invoke(nameof(ResetThrow), throwCooldown);
     }
