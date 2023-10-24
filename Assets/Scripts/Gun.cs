@@ -11,9 +11,9 @@ public class Gun : MonoBehaviour
     [SerializeField] private float fireRate = 15f;
 
     public int maxAmmo = 30;
-    public int currentAmmo;
+    [HideInInspector] public int currentAmmo;
     [SerializeField] private float reloadTime = 1f;
-    private bool isReloading;
+    [HideInInspector] public bool isReloading;
     private bool outOfAmmo;
 
     [SerializeField] private Camera fpsCam;
@@ -38,7 +38,7 @@ public class Gun : MonoBehaviour
     {
         currentAmmo = maxAmmo;
         outOfAmmo = false;
-    }
+    }    
 
     private void Update()
     {
@@ -58,6 +58,7 @@ public class Gun : MonoBehaviour
         sfxPlayer.ReloadSound();
 
         yield return new WaitForSeconds(reloadTime);
+
 
         currentAmmo = maxAmmo;
         ammoText.text = $"{currentAmmo:D2}/{maxAmmo}";
