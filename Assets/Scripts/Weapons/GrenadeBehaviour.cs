@@ -51,6 +51,10 @@ public class GrenadeBehaviour : MonoBehaviour
             Enemy enemy = nearbyObjects.GetComponent<Enemy>();
             if (enemy != null)
                 enemy.TakeDamage(explosionDamage);
+
+            PlayerActions playerActions = nearbyObjects.GetComponent<PlayerActions>();
+            if (playerActions != null)
+                playerActions.PlayerTakeDamage(explosionDamage / 4);
         }
 
         Destroy(gameObject, 2f);        

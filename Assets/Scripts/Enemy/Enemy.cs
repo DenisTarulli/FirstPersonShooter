@@ -6,13 +6,15 @@ using UnityEngine.AI;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float currentHealth, maxHealth = 50f;
-    [SerializeField] private EnemyHealthBar healthBar;
-    [SerializeField] private NavMeshAgent enemy;
-    [SerializeField] private GameObject player;
+    private EnemyHealthBar healthBar;
+    private NavMeshAgent enemy;
+    private GameObject player;
+    private GameManager gameManager;
     private const string IS_PLAYER = "Player";
 
     private void Awake()
     {
+        gameManager = FindObjectOfType<GameManager>();
         healthBar = GetComponentInChildren<EnemyHealthBar>();
         enemy = GetComponent<NavMeshAgent>();
         player = GameObject.FindGameObjectWithTag(IS_PLAYER);
@@ -33,6 +35,7 @@ public class Enemy : MonoBehaviour
 
     private void Die()
     {
+        gameManager.KillCounterUpdate();
         Destroy(gameObject);
     }
 }

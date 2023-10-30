@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 10378318459799614}
   - component: {fileID: -2497284532291635845}
   - component: {fileID: 8232761507239614076}
-  - component: {fileID: -4840221143164756220}
   - component: {fileID: 5679070649042476200}
+  - component: {fileID: -4840221143164756220}
   m_Layer: 0
   m_Name: Grenade
   m_TagString: Untagged
@@ -86,24 +86,6 @@ CapsuleCollider:
   m_Height: 0.11472508
   m_Direction: 1
   m_Center: {x: 0, y: -0.007637456, z: 0.009587575}
---- !u!114 &-4840221143164756220
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4277605687246660207}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fbaa042df9fc1454d918f492f81db491, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  delay: 3
-  radius: 5
-  explosionForce: 500
-  explosionDamage: 100
-  explosionEffect: {fileID: 1159615438314744, guid: 14cf9b5bc3f9faf4ca5ce80298f43111,
-    type: 3}
 --- !u!82 &5679070649042476200
 AudioSource:
   m_ObjectHideFlags: 0
@@ -272,6 +254,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &-4840221143164756220
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4277605687246660207}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fbaa042df9fc1454d918f492f81db491, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  delay: 2
+  radius: 5
+  explosionForce: 500
+  explosionDamage: 100
+  explosionEffect: {fileID: 1159615438314744, guid: 14cf9b5bc3f9faf4ca5ce80298f43111,
+    type: 3}
 --- !u!1001 &3000148712124600767
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -52,7 +52,12 @@ public class PlayerActions : MonoBehaviour
     private void OnCollisionEnter(Collision collision)
     {
         if (!collision.gameObject.CompareTag(IS_ENEMY)) return;
-        currentHealth -= 20f;        
+        PlayerTakeDamage(20f);
+    }
+
+    public void PlayerTakeDamage(float damageTaken)
+    {
+        currentHealth -= damageTaken;
         healthBar.SetHealth(currentHealth);
     }
 }

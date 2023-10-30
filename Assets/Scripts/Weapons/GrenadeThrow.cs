@@ -11,6 +11,7 @@ public class GrenadeThrow : MonoBehaviour
     [SerializeField] private GameObject objectToThrow;
     [SerializeField] private WeaponSwitch weaponSwitch;
     [SerializeField] private TextMeshProUGUI grenadeText;
+    [SerializeField] private PauseMenu pauseMenu;
 
     [Header("Settings")]
     [SerializeField] private int totalThrows;
@@ -31,7 +32,7 @@ public class GrenadeThrow : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKey(throwKey) && readyToThrow && totalThrows > 0 && weaponSwitch.selectedWeapon == 1)
+        if (Input.GetKey(throwKey) && readyToThrow && totalThrows > 0 && weaponSwitch.selectedWeapon == 1 && !pauseMenu.gameIsPaused)
         {            
             Throw();
         }

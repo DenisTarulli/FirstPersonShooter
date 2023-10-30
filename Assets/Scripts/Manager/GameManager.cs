@@ -7,6 +7,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI killCounter;
     [SerializeField] private float startingTime; // en segundos
     [SerializeField] private GameObject gameOverUI;
     [SerializeField] private GameObject WinText;
@@ -14,6 +15,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PauseMenu pauseMenu;
     [SerializeField] private SoundEffectsPlayer sfxPlayer;
 
+    private int totalKills = 0;
     private PlayerActions player;
     private const string IS_PLAYER = "Player";
 
@@ -57,6 +59,7 @@ public class GameManager : MonoBehaviour
         pauseMenu.gameIsPaused = true;
         gameIsOver = true;
         Cursor.lockState = CursorLockMode.None;
+        sfxPlayer.audioSrcMusic.volume = 0.25f;
 
         Time.timeScale = 0f;
         gameOverUI.SetActive(true);
@@ -71,6 +74,12 @@ public class GameManager : MonoBehaviour
             WinText.SetActive(true);
             sfxPlayer.WinSound();
         }
+    }
+
+    public void KillCounterUpdate()
+    {
+        totalKills++;
+        killCounter.text = $"KILLS: {totalKills}";
     }
     
     public void Restart()

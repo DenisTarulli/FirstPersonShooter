@@ -6,8 +6,10 @@ using UnityEngine;
 public class SoundEffectsPlayer : MonoBehaviour
 {
     public AudioSource audioSrc;
+    public AudioSource audioSrcMusic;
     [SerializeField] private AudioClip shoot, reload, emptyChamber, win, lose;
-        
+
+
     public void ShootSound()
     {
         audioSrc.clip = shoot;
@@ -34,7 +36,6 @@ public class SoundEffectsPlayer : MonoBehaviour
 
     public void LoseSound()
     {
-        Debug.Log("A");
         audioSrc.clip = lose;
         audioSrc.Play();
     }

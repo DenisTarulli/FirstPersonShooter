@@ -29,6 +29,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        sfxPlayer.audioSrcMusic.volume = 0.56f;
         pauseMenuUI.SetActive(false);
         Cursor.lockState = CursorLockMode.Locked;
         Time.timeScale = 1f;
@@ -38,6 +39,7 @@ public class PauseMenu : MonoBehaviour
 
     public void Pause()
     {
+        sfxPlayer.audioSrcMusic.volume = 0.25f;
         pauseMenuUI.SetActive(true);
         Cursor.lockState = CursorLockMode.None;
         Time.timeScale = 0f;
