@@ -75,18 +75,21 @@ public class Gun : MonoBehaviour
             animator.SetInteger(IS_FIRE, -1);
         }
 
-        if (Input.GetButtonDown("Fire1") && outOfAmmo && !pauseMenu.gameIsPaused)
-            sfxPlayer.emptyChamberSound();
+        if (!pauseMenu.gameIsPaused)
+        {
+            if (Input.GetButtonDown("Fire1") && outOfAmmo && !pauseMenu.gameIsPaused)
+                sfxPlayer.emptyChamberSound();
 
-        if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !outOfAmmo && !pauseMenu.gameIsPaused)
-        {   
-            animator.SetInteger(IS_FIRE, 2);
-            nextTimeToFire = Time.time + 1f / fireRate;
-            Shoot();                       
+            if (Input.GetButton("Fire1") && Time.time >= nextTimeToFire && !outOfAmmo && !pauseMenu.gameIsPaused)
+            {
+                animator.SetInteger(IS_FIRE, 2);
+                nextTimeToFire = Time.time + 1f / fireRate;
+                Shoot();
+            }
+
+            if (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo && !pauseMenu.gameIsPaused)
+                StartCoroutine(Reload());
         }        
-        
-        if (Input.GetKey(KeyCode.R) && currentAmmo != maxAmmo && !pauseMenu.gameIsPaused)
-            StartCoroutine(Reload());
     }
 
     private void Shoot()
