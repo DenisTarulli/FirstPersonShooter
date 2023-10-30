@@ -7,16 +7,18 @@ public class PauseMenu : MonoBehaviour
     public bool gameIsPaused = false;
 
     [SerializeField] private GameObject pauseMenuUI;
+    private GameManager gameManager;
     private SoundEffectsPlayer sfxPlayer;
 
     private void Start()
     {
         sfxPlayer = GetComponent<SoundEffectsPlayer>();
+        gameManager = FindObjectOfType<GameManager>();
     }
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !gameManager.gameIsOver)
         {
             if (gameIsPaused)
                 Resume();

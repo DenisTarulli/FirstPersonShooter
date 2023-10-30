@@ -9,7 +9,7 @@ public class PlayerActions : MonoBehaviour
 
     [SerializeField] private float maxHealth = 100f;
     [SerializeField] private PlayerHealthBar healthBar;
-    private float currentHealth;
+    [HideInInspector] public float currentHealth;
 
     private float gravity = -15f;
     private Vector3 velocity;
